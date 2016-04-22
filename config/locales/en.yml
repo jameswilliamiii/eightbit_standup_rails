@@ -20,4 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  helpers:
+    label:
+      attendee:
+        hipchat_id: "HipChat Jabber ID"
+        hipchat_username: "HipChat Username"
+        standups: "Stand-ups"

@@ -1,0 +1,15 @@
+- if notice
+  .notices
+    .alert.alert-success.alert-dismissible
+      %button.close{ data: {dismiss: "alert"}, aria: {label: "Close"}}
+        %span{ aria: {hidden: "true"}}
+          &times;
+      = notice
+
+- if alert
+  .notices
+    .alert.alert-danger.alert-dismissible
+      %button.close{ data: {dismiss: "alert"}, aria: {label: "Close"}}
+        %span{ aria: {hidden: "true"}}
+          &times;
+      = alert

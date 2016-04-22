@@ -1,7 +1,11 @@
 class Standup < ActiveRecord::Base
 
+  belongs_to :user
+
   has_many :attendee_standups, dependent: :destroy
   has_many :attendees, through: :attendee_standups
   has_many :status_updates, dependent: :destroy
+
+  validates_presence_of :user_id, :remind_at, :hipchat_room_name
 
 end

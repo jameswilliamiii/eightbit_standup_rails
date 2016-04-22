@@ -1,0 +1,7 @@
+.row.devise
+  .col-md-4.col-md-offset-4
+    %h2 Forgot Your Password?
+    = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+      = f.email_field :email, autofocus: true
+      = f.submit "Email Reset Password Instructions", class: 'btn btn-primary'
+    = render "devise/shared/links"
