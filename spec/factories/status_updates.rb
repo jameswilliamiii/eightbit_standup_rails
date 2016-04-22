@@ -1,7 +1,8 @@
 FactoryGirl.define do
-  factory :attendee_standup do
+  factory :status_update do
     attendee
     standup
+    status "MyText"
   end
 
 end
