@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'active_model_serializers'
-gem 'administrate', '~> 0.1.4'
+gem 'administrate', '~> 0.2.0'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'coffee-rails', '~> 4.1.0'
