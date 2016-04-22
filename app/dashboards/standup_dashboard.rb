@@ -62,7 +62,7 @@ class StandupDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how standups are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(standup)
-  #   "Standup ##{standup.id}"
-  # end
+  def display_resource(standup)
+    standup.program_name
+  end
 end
