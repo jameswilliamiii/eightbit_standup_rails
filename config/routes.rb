@@ -18,5 +18,10 @@ Rails.application.routes.draw do
     get 'cancel'
   end
 
+  namespace :api do
+    resources :standups, only: [:index]
+    resources :status_updates, only: [:create]
+  end
+
   root to: "admin/standups#index"
 end
