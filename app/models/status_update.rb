@@ -17,7 +17,11 @@ class StatusUpdate < ActiveRecord::Base
   end
 
   def self.group_by_attendee(date=nil)
-    date = date || Time.now
+    date = if date
+      Time.parse(date)
+    else
+      Time.now
+    end
     results = includes(:attendee).where(created_at: date.beginning_of_day..date.end_of_day)
     results = results.order('created_at asc')
     results = results.group_by(&:attendee)

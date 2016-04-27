@@ -6,7 +6,7 @@ module Api
     before_action :add_name_to_attendee
 
     def index
-      @status_updates = @standup.status_updates.group_by_attendee
+      @status_updates = @standup.status_updates.group_by_attendee(params[:date])
       render json: @status_updates, root: false, status: :ok and return
     end
 
