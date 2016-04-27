@@ -8,4 +8,8 @@ class Standup < ActiveRecord::Base
 
   validates_presence_of :user_id, :remind_at, :hipchat_room_name, :program_name
 
+  def self.not_completed
+    self.joins(:status_updates).where.not(status_updates: {created_at: Time.now.beginning_of_day..Time.now})
+  end
+
 end
