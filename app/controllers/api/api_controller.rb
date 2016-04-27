@@ -6,6 +6,17 @@ module Api
 
     private
 
+    def find_standup
+      @standup = Standup.find_by hipchat_room_name: params[:hipchat_room_name]
+      unless @standup
+        render json: {
+          success: false,
+          error: 'Sorry, we cannot find a stand-up associated with this chat room'
+        },
+        status: :unprocessable_entity and return
+      end
+    end
+
     def check_and_assign_attendee
       if !hipchat_params_present? || !current_attendee
         render json: {

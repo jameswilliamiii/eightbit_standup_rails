@@ -12,4 +12,9 @@ class Standup < ActiveRecord::Base
     self.joins(:status_updates).where.not(status_updates: {created_at: Time.now.beginning_of_day..Time.now})
   end
 
+  def remove_attendee(attendee)
+    attendee_standup = self.attendee_standups.where attendee: attendee
+    attendee_standup.destroy_all if attendee_standup
+  end
+
 end

@@ -14,6 +14,7 @@ class AttendeeDashboard < Administrate::BaseDashboard
     id: Field::Number,
     hipchat_id: Field::String,
     hipchat_username: Field::String,
+    hipchat_mention: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -36,6 +37,7 @@ class AttendeeDashboard < Administrate::BaseDashboard
     :id,
     :hipchat_id,
     :hipchat_username,
+    :hipchat_mention,
     :created_at,
     :updated_at,
     :standups,
@@ -48,6 +50,7 @@ class AttendeeDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :hipchat_id,
     :hipchat_username,
+    :hipchat_mention,
     :standups,
   ].freeze
 

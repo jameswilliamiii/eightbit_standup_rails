@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422183809) do
+ActiveRecord::Schema.define(version: 20160427165610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20160422183809) do
     t.string   "hipchat_username"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "hipchat_mention"
   end
 
   add_index "attendees", ["hipchat_id"], name: "index_attendees_on_hipchat_id", using: :btree

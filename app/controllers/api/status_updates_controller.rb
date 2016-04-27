@@ -21,17 +21,6 @@ module Api
 
     private
 
-    def find_standup
-      @standup = Standup.find_by hipchat_room_name: params[:hipchat_room_name]
-      unless @standup
-        render json: {
-          success: false,
-          error: 'Sorry, we cannot find a stand-up associated with this chat room'
-        },
-        status: :unprocessable_entity and return
-      end
-    end
-
     def add_to_standup
       if !current_attendee.standups.include?(@standup)
         current_attendee.standups << @standup
@@ -40,8 +29,11 @@ module Api
     end
 
     def add_name_to_attendee
-      if current_attendee.hipchat_username.blank?
-        current_attendee.update_column :hipchat_username, params[:hipchat_username]
+      if current_attendee.hipchat_username.blank? || current_attendee.hipchat_mention.blank?
+        current_attendee.update_columns(
+          hipchat_username: params[:hipchat_username],
+          hipchat_mention: params[:hipchat_mention]
+        )
       end
     end
 
