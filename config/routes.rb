@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :standups, only: [:index]
-    resources :status_updates, only: [:create]
+    resources :status_updates, only: [:index, :create]
   end
 
   root to: "admin/standups#index"

@@ -21,12 +21,12 @@ module Api
     end
 
     def current_attendee
-      @attendee ||= find_attendee
+      @attendee ||= find_or_create_attendee
       @attendee.nil? ? false : @attendee
     end
 
-    def find_attendee
-      Attendee.includes(:standups).where(hipchat_id:  params[:hipchat_id]).first
+    def find_or_create_attendee
+      Attendee.includes(:standups).where(hipchat_id:  params[:hipchat_id]).first_or_create
     end
 
   end

@@ -16,4 +16,12 @@ class StatusUpdate < ActiveRecord::Base
     end
   end
 
+  def self.group_by_attendee(date=nil)
+    date = date || Time.now
+    results = includes(:attendee).where(created_at: date.beginning_of_day..date.end_of_day)
+    results = results.order('created_at asc')
+    results = results.group_by(&:attendee)
+    results.inject([]){ |result, (a, su)| result << {"#{a.hipchat_username}" => su} }
+  end
+
 end
