@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427165610) do
+ActiveRecord::Schema.define(version: 20160427200731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 20160427165610) do
     t.string   "program_name",      null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "remind_at_day"
+    t.integer  "remind_at_hour"
   end
 
   add_index "standups", ["program_name"], name: "index_standups_on_program_name", using: :btree

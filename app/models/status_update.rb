@@ -12,7 +12,7 @@ class StatusUpdate < ActiveRecord::Base
   def clean_text
     first_word = status.split(' ').first
     if first_word.gsub('-', '').downcase == 'standup'
-      self.status = status.gsub("#{first_word} ", '')
+      self.status = status.sub("#{first_word} ", '')
     end
   end
 

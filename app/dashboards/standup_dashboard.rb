@@ -14,6 +14,8 @@ class StandupDashboard < Administrate::BaseDashboard
     id: Field::Number,
     end_at: Field::DateTime,
     remind_at: Field::DateTime,
+    remind_at_day: Field::String,
+    remind_at_hour: Field::String,
     hipchat_room_name: Field::String,
     user: Field::BelongsTo,
     program_name: Field::String,
@@ -30,7 +32,8 @@ class StandupDashboard < Administrate::BaseDashboard
     :id,
     :program_name,
     :attendees,
-    :remind_at,
+    :remind_at_day,
+    :remind_at_hour,
     :end_at,
   ].freeze
 
@@ -40,6 +43,8 @@ class StandupDashboard < Administrate::BaseDashboard
     :id,
     :program_name,
     :hipchat_room_name,
+    :remind_at_day,
+    :remind_at_hour,
     :user,
     :attendees,
     :status_updates,
