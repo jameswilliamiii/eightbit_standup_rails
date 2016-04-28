@@ -7,6 +7,7 @@ namespace :reminders do
       else
         url = 'http://localhost:8080/reminder-hook'
       end
+      url << "?api_key=#{ENV['API_KEY']}"
       body = standup.attendees_missing_updates_hash.to_json
       begin
         HTTParty.post(url, body: body)
