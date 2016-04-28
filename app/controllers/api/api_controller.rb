@@ -2,6 +2,7 @@ module Api
   class ApiController < ApplicationController
     respond_to :json
 
+    before_action :api_auth
     before_action :check_and_assign_attendee
 
     private
@@ -38,6 +39,16 @@ module Api
 
     def find_or_create_attendee
       Attendee.includes(:standups).where(hipchat_id:  params[:hipchat_id]).first_or_create
+    end
+
+    def api_auth
+      if params[:api_key].nil? || params[:api_key] != ENV['API_KEY']
+        unauthorized_response
+      end
+    end
+
+    def unauthorized_response
+      render nothing: true, status: :unauthorized and return
     end
 
   end
