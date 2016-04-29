@@ -1,0 +1,5 @@
+{{ rails_env }}:
+  adapter: postgresql
+  encoding: unicode
+  database: {{ postgres_db_name }}
+  pool: {{ postgres_pool }}

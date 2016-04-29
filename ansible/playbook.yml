@@ -1,0 +1,79 @@
+- hosts: all
+  sudo: yes
+  tasks:
+    - include: tasks/setup.yml
+    - include: tasks/environment-variables.yml
+    - include: tasks/postgresql-install.yml
+    - include: tasks/postgresql-trust-local.yml
+    - include: tasks/postgresql-db.yml
+  handlers:
+    #- include: handlers/postgresql.yml - handler includes not working in 2.x
+    - name: restart postgresql
+      service: name=postgresql state=restarted
+
+- hosts: all
+  sudo: yes
+  sudo_user: "{{ deploy_user }}"
+  tasks:
+    - include: tasks/ssh.yml
+    - include: tasks/rails-config.yml
+
+- hosts: all
+  sudo: yes
+  tasks:
+    - include: tasks/ufw.yml
+
+- hosts: all
+  sudo: yes
+  sudo_user: "{{ deploy_user }}"
+  tasks:
+    - include: tasks/rbenv.yml
+  handlers:
+    #- include: handlers/rbenv.yml
+    - name: update .profile
+      lineinfile:
+        dest: ~/.profile
+        line: '{{item.line}}'
+        regexp: '{{item.regexp}}'
+      with_items:
+        - line: export PATH="$HOME/.rbenv/bin:$PATH"
+          regexp: PATH.*rbenv
+        - line: eval "$(rbenv init -)"
+          regexp: rbenv.*init
+
+- hosts: all
+  sudo: yes
+  tasks:
+    - include: tasks/rbenv-ruby.yml
+
+- hosts: all
+  sudo: yes
+  tasks:
+    - include: tasks/redis.yml
+  handlers:
+    #- include: handlers/redis.yml
+    - name: restart redis-server
+      service: name=redis-server state=restarted
+
+- hosts: all
+  sudo: yes
+  tasks:
+    - include: tasks/nginx.yml
+  handlers:
+    #- include: handlers/nginx.yml
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+- hosts: all
+  sudo: yes
+  tasks:
+    - include: tasks/unicorn-init.yml
+
+- hosts: all
+  sudo: yes
+  tasks:
+    - include: tasks/memcached.yml
+  handlers:
+    #- include: handlers/memcached.yml
+    - name: restart memcached
+      service: name=memcached state=restarted

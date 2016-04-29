@@ -1,0 +1,8 @@
+- name: install postgres trusty repo
+  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present
+- name: Add postgres repository key
+  apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc state=present
+- name: Install postgresql
+  apt: pkg=postgresql-{{ postgres_version }} state=present force=yes
+- name: Install postgres contrib for cube and earthdistance extensions
+  apt: pkg=postgresql-contrib-{{ postgres_version }} state=present force=yes

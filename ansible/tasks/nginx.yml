@@ -1,0 +1,17 @@
+- name: install nginx
+  apt: pkg=nginx
+
+- name: install nginx config
+  template: src=templates/nginx.server dest=/etc/nginx/sites-available/{{ rails_app_name }}.server
+
+- name: enable nginx config
+  file:
+    dest=/etc/nginx/sites-enabled/nginx-{{ rails_env }}.server
+    state=link
+    src=/etc/nginx/sites-available/nginx-{{ rails_env }}.server
+
+- name: disable nginx default config
+  file:
+    path=/etc/nginx/sites-enabled/default
+    state=absent
+  notify: restart nginx

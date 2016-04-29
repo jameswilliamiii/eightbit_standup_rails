@@ -23,15 +23,14 @@ gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 
 # MINA DEPLOYMENT GEMS
-# gem 'mina'
-# gem 'mina-multistage',  require: false
-# gem 'mina-sidekiq',     require: false
-# gem 'mina-unicorn',     require: false
-# gem 'mina-scp',         require: false
+gem 'mina'
+gem 'mina-multistage',  require: false
+gem 'mina-unicorn',     require: false
+gem 'mina-scp',         require: false
 
-# group :production, :staging do
-#   gem 'unicorn-rails'
-# end
+group :production, :staging do
+  gem 'unicorn-rails'
+end
 
 group :development do
   gem 'bullet'

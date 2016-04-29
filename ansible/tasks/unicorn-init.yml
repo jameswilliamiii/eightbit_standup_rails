@@ -1,0 +1,3 @@
+- template: src=templates/unicorn.init.d dest=/etc/init.d/{{ unicorn_start_script_name }}
+- file: path=/etc/init.d/{{ unicorn_start_script_name }} owner=root group=root mode=0755
+- shell: update-rc.d {{ unicorn_start_script_name }} defaults

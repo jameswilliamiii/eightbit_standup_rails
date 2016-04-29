@@ -1,0 +1,18 @@
+- name: create rails app directories
+  file:
+    path=~/apps/{{ rails_app_name }}/shared/config
+    state=directory
+
+- name: create sockets directory for unicorn
+  file:
+    path=~/apps/{{ rails_app_name }}/shared/sockets
+    state=directory
+
+- name: install rails secrets.yml
+  template: src=templates/secrets.yml dest=~/apps/{{ rails_app_name }}/shared/config/secrets.yml
+
+- name: install rails database.yml
+  template: src=templates/database.yml dest=~/apps/{{ rails_app_name }}/shared/config/database.yml
+
+- name: install rails application.yml
+  template: src=templates/application.yml dest=~/apps/{{ rails_app_name }}/shared/config/application.yml

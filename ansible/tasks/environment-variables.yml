@@ -1,0 +1,8 @@
+- name: install environment variables
+  lineinfile:
+    dest: /etc/environment
+    line: "{{ item.line }}"
+    regexp: "{{ item.regexp }}"
+    state: present
+  with_items:
+    - { regexp: '^export SECRET_KEY_BASE', line: "export SECRET_KEY_BASE={{ rails_secret_key_base }}"}

@@ -1,0 +1,59 @@
+# remove existing
+- name: remove local postgres peer
+  lineinfile:
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    regexp: '^local\s+all\s+postgres+\s+peer'
+    state: absent
+
+- name: remove local peer
+  lineinfile:
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    regexp: '^local\s+all\s+all+\s+peer'
+    state: absent
+
+- name: remove IPv4 local md5
+  lineinfile:
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    regexp: '^host\s+all\s+all+\s+127\.0\.0\.1/32\s+md5'
+    state: absent
+
+- name: remove IPv6 local md5
+  lineinfile:
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    regexp: '^host\s+all\s+all+\s+::1/128\s+md5'
+    state: absent
+
+# add trust
+
+- name: trust local all postgres
+  lineinfile:
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    insertbefore: '^# "local" is for Unix domain socket connections only'
+    regexp: '^local\s+all\s+postgres+\s+trust'
+    line: "local   all             postgres                                trust"
+    state: present
+
+- name: trust local all
+  lineinfile:
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    insertafter: '^# "local" is for Unix domain socket connections only'
+    regexp: '^local\s+all\s+all+\s+trust'
+    line: "local   all             all                                     trust"
+    state: present
+
+- name: trust IPv4 local
+  lineinfile:
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    insertafter: '^# IPv4 local connections:'
+    regexp: '^host\s+all\s+all+\s+127\.0\.0\.1/32\s+trust'
+    line: "host    all             all             127.0.0.1/32            trust"
+    state: present
+
+- name: trust IPv6 local
+  lineinfile:
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    insertafter: '^# IPv6 local connections:'
+    regexp: '^host\s+all\s+all+\s+::1/128\s+trust'
+    line: "host    all             all             ::1/128                 trust"
+    state: present
+  notify: restart postgresql

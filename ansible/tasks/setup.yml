@@ -1,0 +1,31 @@
+- name: apt-update
+  shell: apt-get update
+- name: add deploy user
+  user: name={{ deploy_user }} shell=/bin/bash password={{ deploy_user_password }}
+- name: add deploy to sudoers
+  shell: sudo adduser {{ deploy_user }} sudo
+- name: install packages
+  apt: update_cache=true
+  apt: pkg={{ item }}
+  with_items:
+    - curl
+    - build-essential
+    - libpq-dev
+    - libreadline-dev
+    - libgmp-dev
+    - python-psycopg2
+    - git-core
+    - python-pycurl
+    - libcurl4-openssl-dev
+    - nodejs
+    - default-jre
+    - zlib1g-dev
+    - libssl-dev
+    - libyaml-dev
+    - libsqlite3-dev
+    - sqlite3
+    - libxml2-dev
+    - libxslt1-dev
+    - libcurl4-openssl-dev
+    - python-software-properties
+    - libffi-dev
