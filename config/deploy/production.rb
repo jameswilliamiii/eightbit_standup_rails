@@ -1,0 +1,9 @@
+set :domain, 'XX.XXX.XXX.XXX'
+set :deploy_to, '/home/deploy/apps/eightbit-standup-rails-production'
+set :repository, 'git@github.com:jameswilliamiii/eightbit_standup_rails.git'
+set :branch, 'master'
+set :user, 'deploy'
+set :forward_agent, true
+set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
+set :rails_env, 'production'
+set :unicorn_env, "production"

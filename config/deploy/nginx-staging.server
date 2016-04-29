@@ -1,0 +1,49 @@
+upstream app_two {
+    # Path to Unicorn SOCK file, as defined previously
+    server unix:/home/deploy/apps/pictricks-v2-staging/shared/sockets/unicorn.sock fail_timeout=0;
+}
+
+server {
+  listen 80 default_server deferred;
+  listen [::]:80 default_server deferred;
+  server_name staging.epic-edit.com;
+  return 301 https://staging.epic-edit.com$request_uri;
+}
+
+server {
+
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    # Application root, as defined previously
+    root /home/deploy/apps/pictricks-v2-staging/current/public;
+
+    ssl on;
+    ssl_certificate /etc/nginx/ssl/staging-epic-edit/staging.epic-edit.com-bundle.crt;
+    ssl_certificate_key /etc/nginx/ssl/staging-epic-edit/staging.epic-edit.com.key;
+
+    server_name staging.epicedit.org;
+
+    try_files $uri/index.html $uri @app_two;
+
+    access_log /var/log/nginx/pictricks-v2-staging_access.log combined;
+    error_log /var/log/nginx/pictricks-v2-staging_error.log;
+
+    location @app_two {
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass http://app_two;
+        proxy_set_header   X-Forwarded-Proto https;  # <-- don't need this if you're not running SSL
+    }
+
+    location  ~ ^/(assets)/ {
+      gzip_static on;
+      expires 365d;
+      add_header Cache-Control public;
+    }
+
+    error_page 500 502 503 504 /500.html;
+    client_max_body_size 4G;
+    keepalive_timeout 10;
+}
