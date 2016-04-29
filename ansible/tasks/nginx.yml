@@ -6,9 +6,9 @@
 
 - name: enable nginx config
   file:
-    dest=/etc/nginx/sites-enabled/nginx-{{ rails_env }}.server
+    dest=/etc/nginx/sites-enabled/{{ rails_app_name }}.server
     state=link
-    src=/etc/nginx/sites-available/nginx-{{ rails_env }}.server
+    src=/etc/nginx/sites-available/{{ rails_app_name }}.server
 
 - name: disable nginx default config
   file:
