@@ -7,6 +7,17 @@ require 'mina/whenever'
 require 'mina/unicorn'
 require 'mina/scp'
 
+set :domain, '107.170.28.71'
+set :deploy_to, '/home/deploy/apps/eightbit-standup-rails-production'
+set :repository, 'git@github.com:jameswilliamiii/eightbit_standup_rails.git'
+set :branch, 'master'
+set :user, 'deploy'
+set :forward_agent, true
+set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
+set :rails_env, 'production'
+set :unicorn_env, "production"
+
+
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
 set :shared_paths, ['config/database.yml', 'log', 'config/secrets.yml', 'config/application.yml', 'sockets']
