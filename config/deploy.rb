@@ -7,7 +7,7 @@ require 'mina/whenever'
 require 'mina/unicorn'
 require 'mina/scp'
 
-set :domain, '107.170.28.71'
+set :domain, '107.170.57.234'
 set :deploy_to, '/home/deploy/apps/eightbit-standup-rails-production'
 set :repository, 'git@github.com:jameswilliamiii/eightbit_standup_rails.git'
 set :branch, 'master'
