@@ -5,7 +5,7 @@ namespace :reminders do
       if Rails.env.development?
         url = 'http://localhost:8080/reminder-hook'
       else
-        url = 'http://localhost:8080/reminder-hook'
+        url = 'http://192.241.185.166:8080/reminder-hook'
       end
       url << "?api_key=#{ENV['API_KEY']}"
       body = standup.attendees_missing_updates_hash.to_json

@@ -42,7 +42,7 @@ module Api
     end
 
     def api_auth
-      if params[:api_key].nil? || params[:api_key] != ENV['API_KEY']
+      if params['api_key'].nil? || params['api_key'] != ENV['API_KEY']
         unauthorized_response
       end
     end
