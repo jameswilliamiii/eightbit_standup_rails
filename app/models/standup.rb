@@ -5,16 +5,19 @@ class Standup < ActiveRecord::Base
   has_many :attendee_standups, dependent: :destroy
   has_many :attendees, through: :attendee_standups
   has_many :status_updates, dependent: :destroy
+  has_many :reminders, dependent: :destroy
 
-  validates_presence_of :user_id, :remind_at, :hipchat_room_name, :program_name
+  attr_accessor :remind_at
 
-  before_save :add_remind_at_info
+  validates_presence_of :user_id, :hipchat_room_name, :program_name
+
+  before_save :create_reminder
 
   class << self
     def requires_reminder
       remind_at_day = Time.now.strftime('%A')
       remind_at_hour = Time.now.hour
-      where(remind_at_hour: remind_at_hour, remind_at_day: remind_at_day).where('end_at IS ? OR end_at > ?', nil, Time.now)
+      joins(:reminders).where(reminders: {remind_at_hour: remind_at_hour, remind_at_day: remind_at_day}).where('end_at IS ? OR end_at > ?', nil, Time.now)
     end
 
     def not_completed
@@ -26,6 +29,11 @@ class Standup < ActiveRecord::Base
     def todays_time_range
       Time.now.beginning_of_day..Time.now.end_of_day
     end
+  end
+
+  def remind_at=(value)
+    attribute_will_change!("remind_at") unless @remind_at.blank?
+    @remind_at = value
   end
 
   def remove_attendee(attendee)
@@ -55,10 +63,10 @@ class Standup < ActiveRecord::Base
 
   private
 
-  def add_remind_at_info
-    if !remind_at.blank?
-      self.remind_at_day = remind_at.strftime('%A')
-      self.remind_at_hour = remind_at.hour
+  def create_reminder
+    if !self.remind_at.blank?
+      remind_at = DateTime.parse(self.remind_at)
+      self.reminders.first_or_create remind_at_day: remind_at.strftime('%A'), remind_at_hour: remind_at.hour
     end
   end
 

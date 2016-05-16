@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427200731) do
+ActiveRecord::Schema.define(version: 20160516151908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,20 +36,28 @@ ActiveRecord::Schema.define(version: 20160427200731) do
 
   add_index "attendees", ["hipchat_id"], name: "index_attendees_on_hipchat_id", using: :btree
 
+  create_table "reminders", force: :cascade do |t|
+    t.string   "remind_at_day"
+    t.integer  "remind_at_hour"
+    t.integer  "standup_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "reminders", ["remind_at_day"], name: "index_reminders_on_remind_at_day", using: :btree
+  add_index "reminders", ["remind_at_hour"], name: "index_reminders_on_remind_at_hour", using: :btree
+  add_index "reminders", ["standup_id"], name: "index_reminders_on_standup_id", using: :btree
+
   create_table "standups", force: :cascade do |t|
     t.datetime "end_at"
-    t.datetime "remind_at",         null: false
     t.string   "hipchat_room_name", null: false
     t.integer  "user_id",           null: false
     t.string   "program_name",      null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.string   "remind_at_day"
-    t.integer  "remind_at_hour"
   end
 
   add_index "standups", ["program_name"], name: "index_standups_on_program_name", using: :btree
-  add_index "standups", ["remind_at"], name: "index_standups_on_remind_at", using: :btree
   add_index "standups", ["user_id"], name: "index_standups_on_user_id", using: :btree
 
   create_table "status_updates", force: :cascade do |t|
