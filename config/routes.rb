@@ -20,7 +20,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     delete 'standups/delete_attendee' => 'standups#delete_attendee'
-    resources :standups, only: [:index]
+    post   'standups/add_attendee'    => 'standups#add_attendee'
+    resources :standups, only: [:index, :create]
     resources :status_updates, only: [:index, :create]
   end
 

@@ -9,9 +9,10 @@ class Standup < ActiveRecord::Base
 
   attr_accessor :remind_at
 
-  validates_presence_of :user_id, :hipchat_room_name, :program_name
+  validates_presence_of :hipchat_room_name
 
   before_save :create_reminder
+  before_create :create_program_name
 
   class << self
     def requires_reminder
@@ -41,6 +42,10 @@ class Standup < ActiveRecord::Base
     attendee_standup.destroy_all if attendee_standup
   end
 
+  def add_attendee(attendee)
+    self.attendee_standups.where(attendee: attendee).first_or_create
+  end
+
   def attendees_missing_updates
     completed = attendees.joins(:status_updates).where(status_updates: {created_at: self.class.todays_time_range})
     completed = completed.uniq.select(:id)
@@ -68,6 +73,11 @@ class Standup < ActiveRecord::Base
       remind_at = DateTime.parse(self.remind_at)
       self.reminders.first_or_create remind_at_day: remind_at.strftime('%A'), remind_at_hour: remind_at.hour
     end
+  end
+
+  def create_program_name
+    room_id = self.hipchat_room_name.split('@').first
+    room_id_w_spaces = room_id.gsub('_')
   end
 
 end
